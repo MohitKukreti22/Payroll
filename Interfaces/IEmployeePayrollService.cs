@@ -5,6 +5,6 @@ namespace PayRoll.Interfaces
 {
     public interface IEmployeePayrollService
     {
-        Task<Payroll?> GetEmployeePayroll(int employeeId);
+        Task<List<Payroll>?> GetEmployeePayroll(int employeeId);
     }
 }

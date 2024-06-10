@@ -22,7 +22,7 @@ namespace PayRoll.Services
             _employeeRepository = employeeRepository;
         }
 
-        public async Task<Payroll?> GetEmployeePayroll(int employeeId)
+        public async Task<List<Payroll>?> GetEmployeePayroll(int employeeId)
         {
             try
             {
@@ -34,10 +34,13 @@ namespace PayRoll.Services
                     return null;
                 }
 
-                // Retrieve the payroll information for the given employee ID from the repository
-                var payroll = await _payrollRepository.Get(employeeId);
+                // Retrieve all payroll records from the repository
+                var allPayrolls = await _payrollRepository.GetAll();
 
-                return payroll;
+                // Filter the payroll records for the specific employee
+                var employeePayrolls = allPayrolls?.Where(p => p.EmployeeID == employeeId).ToList();
+
+                return employeePayrolls;
             }
             catch (Exception ex)
             {
@@ -46,5 +49,7 @@ namespace PayRoll.Services
                 throw new EmployeeException();
             }
         }
+
+
     }
 }
